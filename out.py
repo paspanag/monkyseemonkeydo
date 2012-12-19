@@ -79,8 +79,8 @@ if __name__ == "__main__":
 
     results = []
     num = 0
-    while(1):
-        result_func = mimer(['a','b','c'],['b','f','g','h','j'],tf_list,alpha_to_val,val_to_alpha)
+    while(num != 5):
+        result_func = mimer(['a','b','c'],['a','b','d'],tf_list,alpha_to_val,val_to_alpha)
         if result_func in results:
             pass
         else:
@@ -89,4 +89,16 @@ if __name__ == "__main__":
             print num
             print result_func
     
-    #print fin_transform(['a','b','c'],result_func)
+    print results
+  
+    print "=======run app========="
+
+    input_list = [['a','b','c'],['x','y','z'],['w','e','r']]
+    for input_set in input_list:
+        print "-------------------------------"
+        print input_set
+        print "-------------------------------"
+        for res in results:
+            print "-=-=-=-=-="
+            print res
+            print fin_transform(input_set,res)
