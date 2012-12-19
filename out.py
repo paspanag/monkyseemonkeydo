@@ -2,9 +2,14 @@ import random
 import copy
 random.seed()
 
-print random.randint(0,10)
+value_hash = {chr(n+96):n for n in range(1,27)}
+rev_value_hash = {n:chr(n+96) for n in range(1,27)}
 
 def mimer(input_list,output_list,transform_list,value_hash,rev_value_hash):
+    
+   # print "---------"
+   # print input_list
+   # print output_list
     remain_list = copy.deepcopy(output_list)
     done_list = []
     result_list = []
@@ -13,11 +18,11 @@ def mimer(input_list,output_list,transform_list,value_hash,rev_value_hash):
         out_rand = random.choice(remain_list)
         in_rand = random.choice(input_list)
         trans_rand = random.choice(transform_list)
-        transformed = transform(in_rand,trans_rand,value_hash,rev_value_hash)
+        transformed = transform(in_rand,trans_rand)
         
         while(calculate_difference(out_rand,transformed,value_hash)):
             trans_rand = random.choice(transform_list)
-            transformed = transform(in_rand,trans_rand,value_hash,rev_value_hash)
+            transformed = transform(in_rand,trans_rand,)
         
         remain_list.remove(out_rand)
         done_list.append(out_rand)
@@ -34,13 +39,19 @@ def to_func(input_list,output_list,transform_list):
                 input_ind = input_list.index(indiv_func[1])
                 transform_value = indiv_func[2]
                 final_func.append((input_ind,transform_value))
-
+    
     return final_func
+
+def fin_transform(input,transfunc_list):
+    retval = []
+    for transfunc in transfunc_list:
+        retval.append(transform(input[transfunc[0]],transfunc[1]))
+    return retval
 
 def calculate_difference(first_letter,second_letter,value_hash):
     return abs(value_hash[first_letter]-value_hash[second_letter])
 
-def transform(letter,transform_value,value_hash,rev_value_hash):
+def transform(letter,transform_value):
     value_of_letter = value_hash[letter]
     
     new_value = value_of_letter + transform_value
@@ -66,5 +77,16 @@ if __name__ == "__main__":
     print tf_list
     print "===="
 
-    results = mimer(['a','b','c'],['b','f','g','h','j'],tf_list,alpha_to_val,val_to_alpha)
-    print results
+    results = []
+    num = 0
+    while(1):
+        result_func = mimer(['a','b','c'],['b','f','g','h','j'],tf_list,alpha_to_val,val_to_alpha)
+        if result_func in results:
+            pass
+        else:
+            num = num + 1
+            results.append(result_func)
+            print num
+            print result_func
+    
+    #print fin_transform(['a','b','c'],result_func)
